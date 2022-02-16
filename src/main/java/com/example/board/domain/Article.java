@@ -1,16 +1,22 @@
 package com.example.board.domain;
 
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @NoArgsConstructor
+@Getter
 @ToString
+@Entity
 public class Article {
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Setter private String title;
@@ -24,7 +30,8 @@ public class Article {
     private LocalDateTime modifiedAt;
     @Setter private String modifiedBy;
 
-    public Article(String title, String content, Integer viewCount, Integer likeCount, String hashtag, String createdBy) {
+    public Article(String title, String content, Integer viewCount, Integer likeCount,
+        String hashtag, String createdBy) {
         this.title = title;
         this.content = content;
         this.viewCount = viewCount;
