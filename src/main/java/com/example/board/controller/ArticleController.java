@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import com.example.board.domain.Article;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +26,12 @@ public class ArticleController {
         Map<String, Object> map = new HashMap<>();
         map.put("articles", null);
 
+        return new ModelAndView("articles/index");
+    }
+    
+    @PutMapping("/{articleId}")
+    public ModelAndView putArticle(@PathVariable Long articleId, Article dto){
+        boardService.update(articleId,dto);
         return new ModelAndView("articles/index");
     }
 }
