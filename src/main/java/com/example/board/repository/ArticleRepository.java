@@ -1,6 +1,7 @@
 package com.example.board.repository;
 
 import com.example.board.domain.Article;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -8,6 +9,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
+    List<Article> articles = new ArrayList<>();
+    
     default List<Article> findMockArticles() {
         return List.of(
             Article.of("글1", "test", 0, 0, "#자바", "uno"),
