@@ -40,4 +40,12 @@ public class Article {
         this.createdBy = createdBy;
         this.modifiedBy = createdBy;
     }
+
+    public static Article of(String title, String content, Integer viewCount, Integer likeCount,
+        String hashtag, String createdBy) {
+        Article article = new Article(title, content, viewCount, likeCount, hashtag, createdBy);
+        article.createdAt = LocalDateTime.now();
+        article.modifiedAt = article.createdAt;
+        return article;
+    }
 }
