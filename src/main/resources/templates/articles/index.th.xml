@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<thlogic>
+  <attr sel="#articleTable">
+    <attr sel="tbody">
+      <attr sel="tr[0]" th:each="article : ${articles}"/>
+      <attr sel="td.hashtag" th:text="${article.hashtag}"/>
+      <attr sel="td.title" th:text="${article.title}"/>
+      <attr sel="td.createdBy" th:text="${article.createdBy}"/>
+      <attr sel="td.viewCount" th:text="${article.viewCount}"/>
+      <attr sel="td.likeCount" th:text="${article.likeCount}"/>
+      <attr sel="td.createdAt" th:text="${#temporals.format(article.createdAt, 'Y/M/d (ha)', 'US')}"/>
+      </attr>
+  </attr>
+</thlogic>
