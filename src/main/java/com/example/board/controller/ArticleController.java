@@ -1,6 +1,7 @@
 package com.example.board.controller;
 
 import com.example.board.domain.Article;
+import com.example.board.service.ArticleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+@
 @RequestMapping("/articles")
 @Controller
 public class ArticleController {
 //    private final ObjectMapper mapper;
+    private final ArticleService;
 
     @GetMapping("")
     public ModelAndView articles() {
@@ -30,8 +33,8 @@ public class ArticleController {
     }
     
     @PutMapping("/{articleId}")
-    public ModelAndView putArticle(@PathVariable Long articleId, Article dto){
-        //boardService.update(articleId,dto);
+    public ModelAndView putArticle(@PathVariable Long articleId, Article article){
+        ArticleService.postArticle(articleId, article);
         return new ModelAndView("articles/index");
     }
 }
