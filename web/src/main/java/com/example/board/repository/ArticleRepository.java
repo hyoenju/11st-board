@@ -13,8 +13,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     
     
-    Optional<Article> findById(Long id); //select * from article where id = {id}
-    List<Article> findAllByCreatedAtBetween(LocalDateTime createdAt);
+    //Optional<Article> findById(Long id); //select * from article where id = {id}
+    //List<Article> findAllByCreatedAtBetween(LocalDateTime createdAt);
 //    @Query("select * from article where id = {id}")
 //    List<Article> findById2(Long id);
     
