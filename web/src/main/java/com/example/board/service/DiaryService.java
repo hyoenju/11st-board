@@ -70,7 +70,7 @@ public class DiaryService {
         List<CalenderDay> week = new ArrayList<>();
         System.out.println("dayOfTheWeek:"+dayOfTheWeek);
         for (int i = 0; i < dayOfTheWeek; i++) {
-            CalenderDay calenderDay = new CalenderDay(0L,false, 0, LocalDateTime.now().toLocalDate());
+            CalenderDay calenderDay = new CalenderDay(0L,false, false,0, LocalDateTime.now().toLocalDate());
             week.add(calenderDay);
         }
         int day = 1;
@@ -88,10 +88,10 @@ public class DiaryService {
               endDatetime);
             //System.out.println("day:"+day+ "\ndiaries size:"+diaries.size());
             CalenderDay calenderDay = new CalenderDay(
-              0L,false, 0, LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day-1)));
+              0L,true,false, 0, LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day-1)));
             if (diaries.size() != 0) {
 //                System.out.println("day:"+day+ "size:"+diaries.size());
-                calenderDay = new CalenderDay(diaries.get(0).getId(),true, diaries.get(0).getEmotionScore(),
+                calenderDay = new CalenderDay(diaries.get(0).getId(),true,true, diaries.get(0).getEmotionScore(),
                   LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day-1)));
             }
             week.add(calenderDay);
@@ -104,7 +104,7 @@ public class DiaryService {
         }
         if (week.size() < 7) {
             while (week.size() < 7) {
-                week.add(new CalenderDay(0L,false, 0, LocalDateTime.now().toLocalDate()));
+                week.add(new CalenderDay(0L,false,false, 0, LocalDateTime.now().toLocalDate()));
             }
             calender.add(week);
         }
