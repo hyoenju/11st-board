@@ -31,7 +31,7 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public ModelAndView getDiary(@PathVariable Long diaryId){
         Map<String, Object> map = new HashMap<>();
-        map.put("diary", diaryService.getDiary(diaryId));
+        //map.put("diary", diaryService.getDiary(diaryId));
         return new ModelAndView("diaries/board_view",map);
     }
     
