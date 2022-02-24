@@ -51,9 +51,9 @@ public class DiaryService {
     public void deleteDiary(Long diaryId) {
         diaryRepository.deleteById(diaryId);
     }
-    
-    public Optional<Diary> getDiary(Long diaryId) {
-        return diaryRepository.findById(diaryId);
+
+    public Diary getDiary(Long diaryId) {
+        return diaryRepository.findById(diaryId).get();
     }
     
     public Diary postDiary(Diary diary) {
