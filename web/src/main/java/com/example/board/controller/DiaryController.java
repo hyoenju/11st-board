@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 @RequiredArgsConstructor
 @RequestMapping("/diaries")
@@ -24,7 +23,7 @@ import org.springframework.web.servlet.View;
 public class DiaryController {
     
     private final DiaryService diaryService;
-    private final RestTemplate restTemplate;
+    //private final RestTemplate restTemplate;
 
     @GetMapping
     public ModelAndView diaries() {
@@ -40,19 +39,19 @@ public class DiaryController {
         return new ModelAndView("diaries/board_view", map);
     }
     
+//    public String postDiary(Diary diary) {
+//        String baseUrl = "http://localhost:8000/ml?content=" + diary.getContent();
+//        ResponseEntity<ScoreResponse> responseEntity = restTemplate.getForEntity(baseUrl,
+//          ScoreResponse.class);
+//        double emotionScore = responseEntity.getBody().getScore();
+//        diary.setEmotionScore(emotionScore);
+//        Long diaryId = diaryService.postDiary(diary).getId();
+//        return "redirect:/diaries/"+diaryId;
+//    }
+    
     @GetMapping("/write")
     public String writeDiary() {
         return "diaries/board_write";
-    }
-    
-    @PostMapping
-    public String postDiary(Diary diary) {
-        String baseUrl = "http://localhost:8000/ml?content="+diary.getContent();
-        ResponseEntity<ScoreResponse> responseEntity = restTemplate.getForEntity(baseUrl, ScoreResponse.class);
-        double emotionScore = responseEntity.getBody().getScore();
-        diary.setEmotionScore(emotionScore);
-        Long diaryId = diaryService.postDiary(diary).getId();
-        return "redirect:/diaries/" + diaryId;
     }
     
     @GetMapping("/edit/{diaryId}")
