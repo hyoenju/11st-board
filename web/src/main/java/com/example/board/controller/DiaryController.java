@@ -2,6 +2,7 @@ package com.example.board.controller;
 
 import com.example.board.domain.Diary;
 import com.example.board.service.DiaryService;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,11 @@ public class DiaryController {
     @GetMapping
     public ModelAndView diaries() {
         Map<String, Object> map = new HashMap<>();
+        LocalDate date = LocalDate.of(2022, 2, 1);
+
         map.put("diaries", diaryService.getDiaries());
+        map.put("date", date);
+
         return new ModelAndView("diaries/index", map);
     }
 
