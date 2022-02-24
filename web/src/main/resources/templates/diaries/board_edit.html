@@ -67,8 +67,10 @@
 
       <div class="row g-5">
         <div class="col-md-12 col-lg-12">
-          <h4 class="mb-3">Modify a Diary</h4>
-          <form class="needs-validation" novalidate>
+          <h4 class="mb-3">Edit a Diary</h4>
+          <form method="post" th:href="@{'/diaries/'+${diary.id}?_method=PUT}"
+                class="needs-validation" novalidate>
+            <input type="hidden" name="_method" value="put"/>
             <div class="row g-3">
               <div class="col-sm-12">
                 <p class="mb-1"><i class="bi bi-book-half"></i> Title</p>
@@ -121,50 +123,57 @@
                       data-bs-target="#deleteModal">Delete
               </button>
             </div>
+
+
+            <div class="modal fade" id="modifyModal" tabindex="-1"
+                 aria-labelledby="modifyModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modifyModalLabel">Modify</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    정말 수정하시겠습니까?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                    </button>
+                    <button type="submit" class="btn btn-warning">Modify</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
+
+          <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+               aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">Modify</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                          aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  정말 삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                  <form method="post" th:action="@{'/diaries/'+${diary.id}+?_method=DELETE}">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                    </button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
 
-    <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel"
-         aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modifyModalLabel">Modify</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            정말 수정하시겠습니까?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <a th:href="@{'/edit/'+${diary.id}}" class="btn btn-warning">Modify</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
-         aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Modify</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            정말 삭제하시겠습니까?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <a th:href="@{'/delete/'+${diary.id}}" class="btn btn-danger">Delete</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
       <div class="row">
