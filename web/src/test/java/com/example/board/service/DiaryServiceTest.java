@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class DiaryServiceTest {
-    
+
     @Autowired
     DiaryService diaryService;
-    
+
     @Test
     public void getThisMonthDiaryTest() {
         List<Diary> thisMonthDiaries = diaryService.getThisMonthDiary();
@@ -20,7 +20,7 @@ public class DiaryServiceTest {
         List<Diary> diaries = diaryService.getDiaries();
         System.out.println("entire size:" + diaries.size());
     }
-    
+
     @Test
     public void getCalenderTest() {
         List<Diary> thisMonthDiaries = diaryService.getThisMonthDiary();

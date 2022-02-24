@@ -12,13 +12,15 @@ import lombok.ToString;
 public class CalenderDay {
     
     private Long id;
-    private boolean exist;
+    private boolean dateExist;
+    private boolean diaryExist;
     private double emotion_score;
     private LocalDate date;
     
-    public CalenderDay(Long id, boolean exist, double emotion_score, LocalDate date) {
+    public CalenderDay(Long id, boolean dateExist, boolean diaryExist, double emotion_score, LocalDate date) {
         this.id = id;
-        this.exist = exist;
+        this.dateExist = dateExist;
+        this.diaryExist = diaryExist;
         this.emotion_score = emotion_score;
         this.date = date;
     }
