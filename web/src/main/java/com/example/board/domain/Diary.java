@@ -27,10 +27,12 @@ Diary {
     private String content;
     @Setter
     private String hashtag;
+    @Setter
+    private double emotionScore;
     
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private double emotionScore;
+    
     
     public Diary(String title, String content, String hashtag) {
         this.title = title;

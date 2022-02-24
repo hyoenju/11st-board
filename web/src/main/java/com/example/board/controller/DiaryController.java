@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 @RequiredArgsConstructor
 @RequestMapping("/diaries")
@@ -36,12 +37,14 @@ public class DiaryController {
     }
     
     @GetMapping("/write")
-    public ModelAndView writeDiary(){
-        return new ModelAndView("diaries/board_write");
+    public String writeDiary(){
+        return "diaries/board_write";
     }
     
     @PostMapping
     public String postDiary(Diary diary){
+        // double emotionScore = python.get(content);
+        // diary.setEmotionScore(emotionScore);
         Long diaryId = diaryService.postDiary(diary).getId();
         return "redirect:/diaries/"+diaryId;
     }
