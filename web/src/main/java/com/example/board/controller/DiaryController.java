@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 @RequiredArgsConstructor
 @RequestMapping("/diaries")
@@ -25,7 +26,7 @@ public class DiaryController {
     public ModelAndView diaries() {
         Map<String, Object> map = new HashMap<>();
         map.put("diaries", diaryService.getDiaries());
-        return new ModelAndView("diaries/index");
+        return new ModelAndView("diaries/index",map);
     }
     
     @GetMapping("/{diaryId}")
@@ -36,8 +37,16 @@ public class DiaryController {
     }
     
     @GetMapping("/write")
-    public ModelAndView writeDiary(){
-        return new ModelAndView("diaries/board_write");
+    public String writeDiary(){
+        return "diaries/board_write";
+    }
+    
+    @PostMapping
+    public String postDiary(Diary diary){
+        // double emotionScore = python.get(content);
+        // diary.setEmotionScore(emotionScore);
+        Long diaryId = diaryService.postDiary(diary).getId();
+        return "redirect:/diaries/"+diaryId;
     }
     
     @GetMapping("/edit/{diaryId}")
@@ -47,23 +56,16 @@ public class DiaryController {
         return new ModelAndView("diaries/board_edit",map);
     }
     
-    @PostMapping
-    public ModelAndView postDiary(Diary diary){
-        Map<String, Object> map = new HashMap<>();
-        map.put("diary",diaryService.postDiary(diary));
-        return new ModelAndView("articles/index",map);
-    }
-    
     @PutMapping("/{diaryId}")
-    public ModelAndView putDiary(@PathVariable Long diaryId, Diary diary){
+    public String putDiary(@PathVariable Long diaryId, Diary diary){
         diaryService.putDiary(diaryId, diary);
-        return new ModelAndView("articles/index");
+        return "redirect:/diaries/"+diaryId;
     }
     
     @DeleteMapping("/{diaryId}")
-    public ModelAndView deleteDiary(@PathVariable Long diaryId){
+    public String deleteDiary(@PathVariable Long diaryId){
         diaryService.deleteDiary(diaryId);
-        return new ModelAndView("articles/index");
+        return "redirect:/diaries";
     }
     
 }

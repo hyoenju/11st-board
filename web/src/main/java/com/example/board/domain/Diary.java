@@ -17,22 +17,28 @@ import lombok.ToString;
 public class
 Diary {
     
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Setter private String title;
-    @Setter private String content;
+    @Setter
+    private String title;
+    @Setter
+    private String content;
+    @Setter
+    private String hashtag;
+    @Setter
+    private double emotionScore;
     
     private LocalDateTime createdAt;
-    @Setter private String createdBy;
     private LocalDateTime modifiedAt;
-    @Setter private String modifiedBy;
     
-    public Diary(String title, String content, String createdBy) {
+    
+    public Diary(String title, String content, String hashtag) {
         this.title = title;
         this.content = content;
-        this.createdBy = createdBy;
-        this.modifiedBy = createdBy;
+        this.hashtag = hashtag;
+        this.emotionScore=0;
     }
     
     public static Diary of(String title, String content, String createdBy) {

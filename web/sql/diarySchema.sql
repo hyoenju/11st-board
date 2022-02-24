@@ -3,6 +3,7 @@ create table diary
     `id`          bigint primary key auto_increment comment 'ID',
     `title`       varchar(255)  not null comment '제목',
     `content`     varchar(4000) not null comment '본문',
+    `hashtag` varchar(255) default null comment '해시태그',
     `created_at`  datetime               default CURRENT_TIMESTAMP not null comment '생성일시',
     `modified_at` datetime               default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP not null comment '수정일시',
     `emotion_score` double comment '감정점수',
