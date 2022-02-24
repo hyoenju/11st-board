@@ -1,12 +1,9 @@
 package com.example.board.controller;
 
-import com.example.board.domain.diary.Diary;
-import com.example.board.service.ArticleService;
+import com.example.board.domain.Diary;
 import com.example.board.service.DiaryService;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/diaries")
+@RequestMapping("/diaries")
 @Controller
 public class DiaryController {
     
     private final DiaryService diaryService;
     
-    @GetMapping("")
+    @GetMapping
     public ModelAndView diaries() {
         Map<String, Object> map = new HashMap<>();
         map.put("diaries", diaryService.getDiaries());
@@ -35,13 +32,25 @@ public class DiaryController {
     public ModelAndView getDiary(@PathVariable Long diaryId){
         Map<String, Object> map = new HashMap<>();
         map.put("diary", diaryService.getDiary(diaryId));
-        return new ModelAndView("articles/index",map);
+        return new ModelAndView("diaries/board_view",map);
     }
     
-    @PutMapping("")
-    public ModelAndView postDiary(@PathVariable Long diaryId, Diary diary){
+    @GetMapping("/write")
+    public ModelAndView writeDiary(){
+        return new ModelAndView("diaries/board_write");
+    }
+    
+    @GetMapping("/edit/{diaryId}")
+    public ModelAndView editDiary(@PathVariable Long diaryId){
         Map<String, Object> map = new HashMap<>();
-        map.put("diary",diaryService.postDiary(diaryId, diary));
+        map.put("diary", diaryService.getDiary(diaryId));
+        return new ModelAndView("diaries/board_edit",map);
+    }
+    
+    @PostMapping
+    public ModelAndView postDiary(Diary diary){
+        Map<String, Object> map = new HashMap<>();
+        map.put("diary",diaryService.postDiary(diary));
         return new ModelAndView("articles/index",map);
     }
     

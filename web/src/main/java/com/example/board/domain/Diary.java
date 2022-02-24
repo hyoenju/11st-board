@@ -1,4 +1,4 @@
-package com.example.board.domain.diary;
+package com.example.board.domain;
 
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
@@ -14,7 +14,8 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-public class Diary {
+public class
+Diary {
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
