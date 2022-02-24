@@ -142,7 +142,8 @@
 </body>
 
 <script th:inline="javascript">
-  const scores = JSON.parse("[[${scores}]]");
+  const scores = JSON.parse("[[${scoreData}]]");
+  const labels = JSON.parse("[[${scoreLabels}]]");
 </script>
 
 </html>
