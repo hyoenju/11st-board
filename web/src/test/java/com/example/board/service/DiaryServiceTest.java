@@ -33,4 +33,5 @@ public class DiaryServiceTest {
             System.out.println();
         }
     }
+
 }
