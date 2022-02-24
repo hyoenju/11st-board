@@ -25,13 +25,13 @@ public class DiaryController {
     public ModelAndView diaries() {
         Map<String, Object> map = new HashMap<>();
         map.put("diaries", diaryService.getDiaries());
-        return new ModelAndView("diaries/index");
+        return new ModelAndView("diaries/index",map);
     }
     
     @GetMapping("/{diaryId}")
     public ModelAndView getDiary(@PathVariable Long diaryId){
         Map<String, Object> map = new HashMap<>();
-        //map.put("diary", diaryService.getDiary(diaryId));
+        map.put("diary", diaryService.getDiary(diaryId));
         return new ModelAndView("diaries/board_view",map);
     }
     
@@ -40,17 +40,17 @@ public class DiaryController {
         return new ModelAndView("diaries/board_write");
     }
     
+    @PostMapping
+    public String postDiary(Diary diary){
+        Long diaryId = diaryService.postDiary(diary).getId();
+        return "redirect:/diaries/"+diaryId;
+    }
+    
     @GetMapping("/edit/{diaryId}")
     public ModelAndView editDiary(@PathVariable Long diaryId){
         Map<String, Object> map = new HashMap<>();
         map.put("diary", diaryService.getDiary(diaryId));
         return new ModelAndView("diaries/board_edit",map);
-    }
-    
-    @PostMapping
-    public String postDiary(Diary diary){
-        Long diaryId = diaryService.postDiary(diary).getId();
-        return "redirect:/diaries/"+diaryId;
     }
     
     @PutMapping("/{diaryId}")
