@@ -70,21 +70,21 @@
       <div class="row g-5">
         <div class="col-md-12 col-lg-12">
           <h4 class="mb-3">Write a Diary</h4>
-          <form class="needs-validation" novalidate>
+          <form method="POST" action="/diaries" class="needs-validation" novalidate>
             <div class="row g-3">
               <div class="col-sm-12">
                 <p class="mb-1"><i class="bi bi-book-half"></i> Title</p>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="title" placeholder="title" value=""
+                  <input type="text" id="title" name="title" class="form-control"  placeholder="title" value=""
                          required>
                   <label for="title"> title </label>
                 </div>
               </div>
 
               <div class="col-sm-12">
-                <p class="mb-1"><i class="bi bi-chat-square-dots-fill"></i> Content</p>
+                <p class="mb-1"><i class="bi bi-chat-square-dots-fill"></i>Content</p>
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="content"
+                    <textarea id="content" name="content" class="form-control" placeholder="Leave a comment here"
                               style="height: 100px"
                               required></textarea>
                   <label for="content">content</label>
@@ -94,7 +94,7 @@
               <div class="col-sm-7 col-md-7">
                 <p class="mb-1"># Hashtag</p>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="hashtag" placeholder="hashtag">
+                  <input type="text" id="hashtag" name="hashtag" class="form-control" placeholder="hashtag">
                   <label for="hashtag">#hashtag</label>
                 </div>
               </div>
@@ -102,7 +102,7 @@
               <div class="col-sm-5 col-md-5">
                 <p class="mb-1"><i class="bi bi-calendar-check"></i> Created At </p>
                 <div class="form-floating mb-3">
-                  <input type="date" class="form-control" id="createdAt" placeholder="createdAt"
+                  <input type="date" class="form-control" id="createdAt" name="createdAt" placeholder="createdAt"
                          th:value="${param.date}" required>
                   <label for="createdAt"> created at </label>
                 </div>
