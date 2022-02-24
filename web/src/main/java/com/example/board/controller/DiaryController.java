@@ -1,9 +1,11 @@
 package com.example.board.controller;
 
 import com.example.board.domain.Diary;
+import com.example.board.dto.CalenderDay;
 import com.example.board.service.DiaryService;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,11 +27,9 @@ public class DiaryController {
     @GetMapping
     public ModelAndView diaries() {
         Map<String, Object> map = new HashMap<>();
-        LocalDate date = LocalDate.of(2022, 2, 1);
-
-        map.put("diaries", diaryService.getDiaries());
-        map.put("date", date);
-
+        List<Diary> thisMonthDiaries = diaryService.getThisMonthDiary();
+        List<List<CalenderDay>> calenderDiaries = diaryService.getThisMonthCalender(thisMonthDiaries);
+        map.put("calender", calenderDiaries);
         return new ModelAndView("diaries/index", map);
     }
 
@@ -39,7 +39,7 @@ public class DiaryController {
         map.put("diary", diaryService.getDiary(diaryId));
         return new ModelAndView("diaries/board_view", map);
     }
-
+    //@PostMapping
 //    public String postDiary(Diary diary) {
 //        String baseUrl = "http://localhost:8000/ml?content=" + diary.getContent();
 //        ResponseEntity<ScoreResponse> responseEntity = restTemplate.getForEntity(baseUrl,
@@ -49,7 +49,7 @@ public class DiaryController {
 //        Long diaryId = diaryService.postDiary(diary).getId();
 //        return "redirect:/diaries/"+diaryId;
 //    }
-
+    
     @GetMapping("/write")
     public String writeDiary() {
         return "diaries/board_write";
