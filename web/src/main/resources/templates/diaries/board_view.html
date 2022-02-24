@@ -61,10 +61,11 @@
 
   <div class="container">
     <main class="py-4">
-      <div class="py-5 text-center">
+      <div class="py-5 text-center"
+           th:with="date=${#temporals.format(diary.createdAt, 'yyyy-MM-dd')}">
         <h2><i class="bi bi-journal-text"></i> Read A Diary </h2>
-        <p class="lead">
-          오늘 있었던 일과 기분을 짧은 일기로 표현해보세요 :)
+        <p class="lead pb-4">
+          <span th:text="${date}"></span> 의 일기 입니다 :D
         </p>
       </div>
 
@@ -72,26 +73,25 @@
         <div class="my-3 p-3 bg-body rounded shadow-sm">
           <div class="d-flex border-bottom pt-2 pb-2 mb-0">
             <h5 class="px-2 flex-grow-1">제목 : <span th:text="${diary.title}"> </span></h5>
-            <p class="px-2"> Date : <span th:text="${diary.date}"> </span></p>
+            <p class="px-2"> Date : <span
+                th:text="${#temporals.format(diary.createdAt, 'yyyy-MM-dd')}"> </span></p>
           </div>
 
-          <div id="article" class="d-flex text-muted pt-2" th:switch="${diary.label}">
+          <div id="article" class="d-flex text-muted pt-2">
+            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded p-2 bi bi-emoji-heart-eyes"
+               th:if="${(diary.emotionScore>0.8)&&(diary.emotionScore<=1.0)}"></i>
+            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded p-2 bi bi-emoji-smile"
+               th:if="${(diary.emotionScore>0.6)&&(diary.emotionScore<=0.8)}"></i>
+            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded p-2 bi bi-emoji-neutral"
+               th:if="${(diary.emotionScore>0.4)&&(diary.emotionScore<=0.6)}"></i>
+            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded p-2 bi bi-emoji-frown"
+               th:if="${(diary.emotionScore>0.2)&&(diary.emotionScore<=0.4)}"></i>
+            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded p-2 bi bi-emoji-dizzy"
+               th:if="${(diary.emotionScore>=0.0)&&(diary.emotionScore<=0.2)}"></i>
 
-            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded px-2 bi bi-emoji-heart-eyes"
-               th:case="5"></i>
-            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded px-2 bi bi-emoji-smile"
-               th:case="4"></i>
-            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded px-2 bi bi-emoji-neutral"
-               th:case="3"></i>
-            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded px-2 bi bi-emoji-frown"
-               th:case="2"></i>
-            <i class="bd-placeholder-img flex-shrink-0 me-2 rounded px-2 bi bi-emoji-dizzy"
-               th:case="1"></i>
-
-            <div id="content" class="pb-3 pt-3 mb-0 small lh-sm border-bottom"
-                 th:text="${diary.content}">
-              <strong class="d-block text-gray-dark text-end p-3 pb-0"
-                      th:text="${diary.hashtag}"></strong>
+            <div id="content" class="pb-3 pt-3 mb-0 small lh-sm border-bottom">
+              <p th:text="${diary.content}"></p>
+              <strong class="d-block text-gray-dark py-3 pb-0" th:text="${diary.hashtag}"></strong>
             </div>
           </div>
           <small class="d-block text-end mt-3 mx-2">
