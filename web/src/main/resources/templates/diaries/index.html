@@ -73,12 +73,10 @@
         <div class="row g-5">
           <h1><i class="bi bi-calendar-event"></i> Mood Calendar </h1>
           <div id="month" class="container">
-            <h3>
-              <a href=""><i class="bi bi-caret-left-fill"></i></a>
-              2022-02
-              <a href="">
-                <i class="bi bi-caret-right-fill"></i>
-              </a>
+            <h3 th:with="prev=${#temporals.format(date.minusMonths(1), 'yyyy-MM')},next=${#temporals.format(date.plusMonths(1), 'yyyy-MM')}">
+              <a th:href="@{/diaries(date=${prev})}"><i class="bi bi-caret-left-fill"></i></a>
+              <span th:text="${#temporals.format(date, 'yyyy-MM')}"></span>
+              <a th:href="@{/diaries(date=${next})}"><i class="bi bi-caret-right-fill"></i></a>
             </h3>
           </div>
 
@@ -99,13 +97,17 @@
               <td th:each="diary : ${week}">
                 <div class="h-100 d-flex flex-column bd-highlight mb-3">
                   <p class="mb-auto date" th:text="${diary.date}"></p>
-                  <p class="mb-auto emoji" th:if="${diary.exists}" th:switch="${diary.label}">
-                    <i class="bi bi-emoji-heart-eyes" th:case="5"></i>
-                    <i class="bi bi-emoji-smile" th:case="4"></i>
-                    <i class="bi bi-emoji-neutral" th:case="3"></i>
-                    <i class="bi bi-emoji-frown" th:case="2"></i>
-                    <i class="bi bi-emoji-dizzy" th:case="1"></i>
-                  </p>
+                  <p class="mb-auto emoji" th:if="${diary.exists}">
+                    <i class="bi bi-emoji-heart-eyes"
+                       th:if="${(diary.emotionScore>0.8)&&(diary.emotionScore<=1.0)}"></i>
+                    <i class="bi bi-emoji-heart-eyes"
+                       th:if="${(diary.emotionScore>0.6)&&(diary.emotionScore<=0.8)}"></i>
+                    <i class="bi bi-emoji-heart-eyes"
+                       th:if="${(diary.emotionScore>0.4)&&(diary.emotionScore<=0.6)}"></i>
+                    <i class="bi bi-emoji-heart-eyes"
+                       th:if="${(diary.emotionScore>0.2)&&(diary.emotionScore<=0.4)}"></i>
+                    <i class="bi bi-emoji-heart-eyes"
+                       th:if="${(diary.emotionScore>=0.0)&&(diary.emotionScore<=0.2)}"></i>
                   <div class="btn-group url" role="group">
                     <a class="btn btn-sm btn-outline-primary" th:if="${diary.exists}"
                        th:href="@{'/diaries/'+${diary.id}}">View</a>
@@ -117,6 +119,7 @@
                 </div>
               </td>
             </tr>
+            </tbody>
           </table>
 
           <div class="py-5 text-center">
