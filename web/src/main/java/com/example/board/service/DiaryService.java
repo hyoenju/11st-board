@@ -43,7 +43,7 @@ public class DiaryService {
         return diaryRepository.findById(diaryId);
     }
     
-    public Diary postDiary(Long diaryId, Diary diary) {
+    public Diary postDiary(Diary diary) {
         return diaryRepository.save(diary);
     }
 }
