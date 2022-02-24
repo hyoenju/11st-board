@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -109,5 +109,28 @@ public class DiaryService {
             calender.add(week);
         }
         return calender;
+    }
+
+    public Map<String, Object> getMonthEmotionScores(List<List<CalenderDay>> monthDiaries) {
+        Map<String, Object> map = new HashMap<>();
+        List<Integer> labels = new ArrayList<>();
+        List<Object> data = new ArrayList<>();
+
+        for (List<CalenderDay> week : monthDiaries) {
+            for (CalenderDay calenderDay : week) {
+                if (calenderDay.isDateExist()) {
+                    labels.add(calenderDay.getDate().getDayOfMonth());
+                    if (calenderDay.isDiaryExist()) {
+                        data.add(calenderDay.getEmotion_score());
+                    } else {
+                        data.add(null);
+                    }
+                }
+            }
+        }
+        map.put("labels", labels);
+        map.put("data", data);
+
+        return map;
     }
 }
