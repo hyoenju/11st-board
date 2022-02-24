@@ -48,22 +48,21 @@ public class DiaryController {
     }
     
     @PostMapping
-    public ModelAndView postDiary(Diary diary){
-        Map<String, Object> map = new HashMap<>();
-        map.put("diary",diaryService.postDiary(diary));
-        return new ModelAndView("articles/index",map);
+    public String postDiary(Diary diary){
+        Long diaryId = diaryService.postDiary(diary).getId();
+        return "redirect:/diaries/"+diaryId;
     }
     
     @PutMapping("/{diaryId}")
-    public ModelAndView putDiary(@PathVariable Long diaryId, Diary diary){
+    public String putDiary(@PathVariable Long diaryId, Diary diary){
         diaryService.putDiary(diaryId, diary);
-        return new ModelAndView("articles/index");
+        return "redirect:/diaries/"+diaryId;
     }
     
     @DeleteMapping("/{diaryId}")
-    public ModelAndView deleteDiary(@PathVariable Long diaryId){
+    public String deleteDiary(@PathVariable Long diaryId){
         diaryService.deleteDiary(diaryId);
-        return new ModelAndView("articles/index");
+        return "redirect:/diaries";
     }
     
 }
