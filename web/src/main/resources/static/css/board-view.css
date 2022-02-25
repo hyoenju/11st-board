@@ -2,3 +2,16 @@
   font-size: 1.1em;
   font-weight: lighter;
 }
+
+#article i {
+   font-size: 56px;
+ }
+
+html, body, #main
+{
+  height: 100vh;
+}
+
+main {
+  min-height:70vh
+}

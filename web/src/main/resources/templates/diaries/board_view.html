@@ -30,12 +30,6 @@
           integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
           crossorigin="anonymous" defer>
   </script>
-
-  <style>
-    #article i {
-      font-size: 56px;
-    }
-  </style>
 </head>
 
 <body>
@@ -98,98 +92,10 @@
             <a th:href="@{'/diaries/edit/'+${diary.id}}">수정하기 > </a>
           </small>
         </div>
-
-        <div class="my-5 p-3 bg-body rounded shadow-sm">
-          <div class="border-bottom pb-2 mb-0">
-            <h6>댓글</h6>
-            <form class="row p-2 ps-0 g-3 text-end">
-              <div class="col-2">
-                <label for="name" class="visually-hidden"></label>
-                <input type="text" class="form-control" id="name" placeholder="name">
-              </div>
-              <div class="col-9">
-                <label for="comment" class="visually-hidden">Password</label>
-                <input type="text" class="form-control" id="comment" placeholder="comment">
-              </div>
-              <div class="col-1">
-                <button type="submit" class="btn btn-primary">submit</button>
-              </div>
-            </form>
-          </div>
-
-          <div class="d-flex text-muted pt-3">
-            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                 preserveAspectRatio="xMidYMid slice" focusable="false">
-              <title>Placeholder</title>
-              <rect width="100%" height="100%" fill="#007bff"/>
-              <text x="50%" y="50%" fill="#007bff"
-                    dy=".3em">32x32
-              </text>
-            </svg>
-
-            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-              <div class="d-flex align-items-center justify-content-between">
-                <strong class="px-2 flex-grow-1 text-gray-dark">Comment 1</strong>
-                <div class="px-2 h-100 text-end">
-                  <span class="d-block">2022/02/21</span>
-                  <span class="d-block">@username</span>
-                </div>
-                <a class="px-2" href="#"><i class="bi bi-x"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="d-flex text-muted pt-3">
-            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                 preserveAspectRatio="xMidYMid slice" focusable="false">
-              <title>Placeholder</title>
-              <rect width="100%" height="100%" fill="#007bff"/>
-              <text x="50%" y="50%" fill="#007bff"
-                    dy=".3em">32x32
-              </text>
-            </svg>
-
-            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-              <div class="d-flex align-items-center justify-content-between">
-                <strong class="px-2 flex-grow-1 text-gray-dark">Comment 2</strong>
-                <div class="px-2 h-100 text-end">
-                  <span class="d-block">2022/02/21</span>
-                  <span class="d-block">@username</span>
-                </div>
-                <a class="px-2" href="#"><i class="bi bi-x"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="d-flex text-muted pt-3">
-            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                 preserveAspectRatio="xMidYMid slice" focusable="false">
-              <title>Placeholder</title>
-              <rect width="100%" height="100%" fill="#007bff"/>
-              <text x="50%" y="50%" fill="#007bff"
-                    dy=".3em">32x32
-              </text>
-            </svg>
-
-            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-              <div class="d-flex align-items-center justify-content-between">
-                <strong class="px-2 flex-grow-1 text-gray-dark">Comment 3</strong>
-                <div class="px-2 h-100 text-end">
-                  <span class="d-block">2022/02/21</span>
-                  <span class="d-block">@username</span>
-                </div>
-                <a class="px-2" href="#"><i class="bi bi-x"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </main>
 
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <footer class="pt-4 my-md-5 pt-md-5 border-top navbar-fixed-bottom">
       <div class="row">
         <div class="col-12 col-md d-flex justify-content-center">
           <small class="d-block mb-3 text-muted">Copyright &copy; 2022 All Rights Reserved</small>
