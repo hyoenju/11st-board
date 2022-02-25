@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -72,15 +73,25 @@ public class DiaryController {
         map.put("diary", diaryService.getDiary(diaryId));
         return new ModelAndView("diaries/board_edit", map);
     }
-
-    @PutMapping("/{diaryId}")
-    public String putDiary(@PathVariable Long diaryId, Diary diary) {
+    
+    @PutMapping("/edit/{diaryId}")
+    public String putDiary(@PathVariable Long diaryId, String content, @ModelAttribute Diary diary) {
+        System.out.println("put method");
+        System.out.println("content: "+content);
+        System.out.println(diary);
+        String baseUrl = "http://localhost:8000/ml?content=" + diary.getContent();
+        ResponseEntity<ScoreResponse> responseEntity = restTemplate.getForEntity(baseUrl,
+          ScoreResponse.class);
+        double emotionScore = responseEntity.getBody().getScore();
+        diary.setEmotionScore(emotionScore);
         diaryService.putDiary(diaryId, diary);
         return "redirect:/diaries/" + diaryId;
     }
-
+    
     @DeleteMapping("/{diaryId}")
     public String deleteDiary(@PathVariable Long diaryId) {
+        System.out.println("delete method");
+        System.out.println(diaryId);
         diaryService.deleteDiary(diaryId);
         return "redirect:/diaries";
     }
