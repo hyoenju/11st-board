@@ -82,7 +82,6 @@ public class DiaryController {
         Diary diary = new Diary(diaryRequestDto.getTitle(), diaryRequestDto.getContent(),
           diaryRequestDto.getHashtag(), emotionScore,
           toBe);
-        System.out.println("createdAt:"+createdAt+" toBe:"+toBe);
         Long diaryId = diaryService.postDiary(diary).getId();
         return "redirect:/diaries/" + diaryId;
     }
@@ -100,11 +99,21 @@ public class DiaryController {
     }
     
     @PutMapping("/{diaryId}")
-    public String putDiary(@PathVariable Long diaryId, @ModelAttribute Diary diary) {
-        String baseUrl = "http://localhost:8000/ml?content=" + diary.getContent();
+    public String putDiary(@PathVariable Long diaryId, @ModelAttribute DiaryRequestDto diaryRequestDto) {
+        String baseUrl = "http://localhost:8000/ml?content=" + diaryRequestDto.getContent();
         ResponseEntity<ScoreResponse> responseEntity = restTemplate.getForEntity(baseUrl,
           ScoreResponse.class);
         double emotionScore = responseEntity.getBody().getScore();
+        String createdAt = diaryRequestDto.getCreatedAt();
+        final List<Integer> splited = Arrays.stream(createdAt.split("-")).map(it -> Integer.parseInt(it))
+          .collect(Collectors.toList());
+        final int year = splited.get(0);
+        final int month = splited.get(1);
+        final int day = splited.get(2);
+        final LocalDateTime toBe = LocalDateTime.of(year, month, day, 0, 0);
+        Diary diary = new Diary(diaryRequestDto.getTitle(), diaryRequestDto.getContent(),
+          diaryRequestDto.getHashtag(), emotionScore,
+          toBe);
         diary.setEmotionScore(emotionScore);
         System.out.println(diary);
         diaryService.putDiary(diaryId, diary);
