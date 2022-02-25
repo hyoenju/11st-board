@@ -51,7 +51,7 @@
         <span class="fs-4">11st-Board</span>
       </a>
       <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-        <a class="py-2 text-dark text-decoration-none" href="#"> 일기 쓰러가기 ></a>
+        <a class="py-2 text-dark text-decoration-none" href="/diaries/write"> 일기 쓰러가기 ></a>
       </nav>
     </div>
   </header>
@@ -105,7 +105,7 @@
                 <p class="mb-1"><i class="bi bi-calendar-check"></i> Created At</p>
                 <div class="form-floating mb-3">
                   <input type="date" class="form-control" id="createdAt" placeholder="createdAt"
-                         th:value="${diary.date}"
+                         th:value="${diary.createdAt}"
                          disabled>
                   <label for="createdAt"> created at </label>
                 </div>
