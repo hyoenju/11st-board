@@ -61,15 +61,8 @@ public class DiaryService {
     }
 
     public List<List<CalenderDay>> getThisMonthCalender(
-        LocalDateTime currentDateTime, List<Diary> thisMonthDiaries) {
+        LocalDateTime currentDateTime) {
         List<List<CalenderDay>> calender = new ArrayList<>();
-//
-//        LocalDateTime firstDateTime;
-//        if (thisMonthDiaries.size() > 0) {
-//            firstDateTime = thisMonthDiaries.get(0).getCreatedAt();
-//        } else {
-//            firstDateTime = currentDateTime;
-//        }
         int dayOfTheWeek = currentDateTime.getDayOfWeek().getValue();
         int dayOfMonth = LocalDate.from(currentDateTime.with(TemporalAdjusters.lastDayOfMonth()))
             .getDayOfMonth();
@@ -89,16 +82,12 @@ public class DiaryService {
             LocalDateTime endDatetime = LocalDateTime.of(
                 LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)),
                 LocalTime.of(23, 59, 59));
-//            System.out.println("start:" + startDatetime);
-//            System.out.println("end:" + endDatetime);
             List<Diary> diaries = diaryRepository.findByCreatedAtIsBetween(startDatetime,
                 endDatetime);
-            //System.out.println("day:"+day+ "\ndiaries size:"+diaries.size());
             CalenderDay calenderDay = new CalenderDay(
                 0L, true, false, 0,
                 LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)));
             if (diaries.size() != 0) {
-//                System.out.println("day:"+day+ "size:"+diaries.size());
                 calenderDay = new CalenderDay(diaries.get(0).getId(), true, true,
                     diaries.get(0).getEmotionScore(),
                     LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)));

@@ -27,7 +27,7 @@ public class DiaryServiceTest {
     public void getCalenderTest() {
         LocalDateTime localDateTime = LocalDateTime.of(2022, 2, 1, 0, 0,0);
         List<Diary> thisMonthDiaries = diaryService.getThisMonthDiary(localDateTime);
-        List<List<CalenderDay>> calender = diaryService.getThisMonthCalender(localDateTime, thisMonthDiaries);
+        List<List<CalenderDay>> calender = diaryService.getThisMonthCalender(localDateTime);
         for (int i = 0; i < calender.size(); i++) {
             for (int j = 0; j < calender.get(0).size(); j++) {
                 System.out.println("day:"+(i*7+j));

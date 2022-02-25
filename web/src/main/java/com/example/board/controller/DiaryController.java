@@ -42,7 +42,7 @@ public class DiaryController {
 
         Map<String, Object> map = new HashMap<>();
         List<Diary> thisMonthDiaries = diaryService.getThisMonthDiary(currentDateTime);
-        List<List<CalenderDay>> calenderDiaries = diaryService.getThisMonthCalender(currentDateTime, thisMonthDiaries);
+        List<List<CalenderDay>> calenderDiaries = diaryService.getThisMonthCalender(currentDateTime);
         Map<String, Object> emotionScores = diaryService.getMonthEmotionScores(calenderDiaries);
 
         map.put("calendar", calenderDiaries);
