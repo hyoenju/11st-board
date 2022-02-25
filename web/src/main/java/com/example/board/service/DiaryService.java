@@ -24,8 +24,7 @@ public class DiaryService {
         return diaryRepository.findAll();
     }
 
-    public List<Diary> getThisMonthDiary() {
-        LocalDateTime currentDateTime = LocalDateTime.now();
+    public List<Diary> getThisMonthDiary(LocalDateTime currentDateTime) {
         LocalDateTime startDatetime = LocalDateTime.of(
             LocalDate.from(currentDateTime.withDayOfMonth(1)), LocalTime.of(0, 0, 0)); //이번달 00:00:00
         LocalDateTime endDatetime = LocalDateTime.of(
@@ -60,11 +59,16 @@ public class DiaryService {
     }
 
     public List<List<CalenderDay>> getThisMonthCalender(
-        List<Diary> thisMonthDiaries) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime currentDateTime, List<Diary> thisMonthDiaries) {
         List<List<CalenderDay>> calender = new ArrayList<>();
-        LocalDateTime firstDateTime = thisMonthDiaries.get(0).getCreatedAt();
-        int dayOfTheWeek = firstDateTime.getDayOfWeek().getValue();
+//
+//        LocalDateTime firstDateTime;
+//        if (thisMonthDiaries.size() > 0) {
+//            firstDateTime = thisMonthDiaries.get(0).getCreatedAt();
+//        } else {
+//            firstDateTime = currentDateTime;
+//        }
+        int dayOfTheWeek = currentDateTime.getDayOfWeek().getValue();
         int dayOfMonth = LocalDate.from(currentDateTime.with(TemporalAdjusters.lastDayOfMonth()))
             .getDayOfMonth();
         List<CalenderDay> week = new ArrayList<>();

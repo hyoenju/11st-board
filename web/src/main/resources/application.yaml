@@ -3,8 +3,8 @@ spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/boardsample
-        username: uno
-        password: q1w2e3r4
+        username: hyeonju
+        password: dlguswn
     thymeleaf:
         cache: false
     thymeleaf3:
