@@ -104,8 +104,8 @@
               <div class="col-sm-5 col-md-5">
                 <p class="mb-1"><i class="bi bi-calendar-check"></i> Created At</p>
                 <div class="form-floating mb-3">
-                  <input type="date" class="form-control" id="createdAt" placeholder="createdAt"
-                         th:value="${diary.createdAt}"
+                  <input type="date" class="form-control" id="createdAt" name="createdAt" placeholder="createdAt"
+                         th:value="${#temporals.format(diary.createdAt, 'yyyy-MM-dd')}"
                          disabled>
                   <label for="createdAt"> created at </label>
                 </div>
