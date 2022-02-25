@@ -33,7 +33,13 @@ public class DiaryController {
         Map<String, Object> map = new HashMap<>();
         List<Diary> thisMonthDiaries = diaryService.getThisMonthDiary();
         List<List<CalenderDay>> calenderDiaries = diaryService.getThisMonthCalender(thisMonthDiaries);
-        map.put("calender", calenderDiaries);
+        Map<String, Object> emotionScores = diaryService.getMonthEmotionScores(calenderDiaries);
+
+        map.put("calendar", calenderDiaries);
+        map.put("date", calenderDiaries.get(0).get(0).getDate());
+        map.put("scoreData", emotionScores.get("data"));
+        map.put("scoreLabels", emotionScores.get("labels"));
+
         return new ModelAndView("diaries/index", map);
     }
 

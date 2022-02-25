@@ -65,7 +65,7 @@
         <h1 class="display-4 fw-normal pb-5">My Diary</h1>
         <p class="fs-5 text-muted">
           오늘 하루동안 있었던 일을 일기로 작성해보세요.<br>
-          일기에서 풍기는 당신의 오늘 하루 기분을 예측해드립니다 :)
+          일기에서 풍기는 당신의 하루 기분을 예측해드립니다 :)
         </p>
       </div>
 
@@ -93,27 +93,28 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="week : ${diaries}">
+            <tr th:each="week : ${calendar}">
               <td th:each="diary : ${week}">
                 <div class="h-100 d-flex flex-column bd-highlight mb-3">
-                  <p class="mb-auto date" th:text="${diary.date}"></p>
-                  <p class="mb-auto emoji" th:if="${diary.exists}">
+                  <p class="mb-auto date" th:if="${diary.dateExist}" th:text="${diary.date}"></p>
+                  <p class="mb-auto emoji" th:if="${diary.diaryExist}">
                     <i class="bi bi-emoji-heart-eyes"
-                       th:if="${(diary.emotionScore>0.8)&&(diary.emotionScore<=1.0)}"></i>
-                    <i class="bi bi-emoji-heart-eyes"
-                       th:if="${(diary.emotionScore>0.6)&&(diary.emotionScore<=0.8)}"></i>
-                    <i class="bi bi-emoji-heart-eyes"
-                       th:if="${(diary.emotionScore>0.4)&&(diary.emotionScore<=0.6)}"></i>
-                    <i class="bi bi-emoji-heart-eyes"
-                       th:if="${(diary.emotionScore>0.2)&&(diary.emotionScore<=0.4)}"></i>
-                    <i class="bi bi-emoji-heart-eyes"
-                       th:if="${(diary.emotionScore>=0.0)&&(diary.emotionScore<=0.2)}"></i>
+                       th:if="${(diary.emotion_score>0.8)&&(diary.emotion_score<=1.0)}"></i>
+                    <i class="bi bi-emoji-smile"
+                       th:if="${(diary.emotion_score>0.6)&&(diary.emotion_score<=0.8)}"></i>
+                    <i class="bi bi-emoji-neutral"
+                       th:if="${(diary.emotion_score>0.4)&&(diary.emotion_score<=0.6)}"></i>
+                    <i class="bi bi-emoji-frown"
+                       th:if="${(diary.emotion_score>0.2)&&(diary.emotion_score<=0.4)}"></i>
+                    <i class="bi bi-emoji-dizzy"
+                       th:if="${(diary.emotion_score>=0.0)&&(diary.emotion_score<=0.2)}"></i>
+                  </p>
                   <div class="btn-group url" role="group">
-                    <a class="btn btn-sm btn-outline-primary" th:if="${diary.exists}"
+                    <a class="btn btn-sm btn-outline-primary" th:if="${diary.diaryExist}"
                        th:href="@{'/diaries/'+${diary.id}}">View</a>
-                    <a class="btn btn-sm btn-outline-primary" th:if="${diary.exists}"
+                    <a class="btn btn-sm btn-outline-primary" th:if="${diary.diaryExist}"
                        th:href="@{'/diaries/edit/'+${diary.id}}">Edit</a>
-                    <a class="btn btn-sm btn-outline-primary" th:unless="${diary.exists}"
+                    <a class="btn btn-sm btn-outline-primary" th:if="${diary.dateExist}" th:unless="${diary.diaryExist}"
                        th:href="@{'/diaries/write'(date=${diary.date})}">Write</a>
                   </div>
                 </div>
@@ -141,7 +142,8 @@
 </body>
 
 <script th:inline="javascript">
-  const scores = JSON.parse("[[${scores}]]");
+  const scores = JSON.parse("[[${scoreData}]]");
+  const labels = JSON.parse("[[${scoreLabels}]]");
 </script>
 
 </html>
