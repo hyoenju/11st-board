@@ -6,6 +6,10 @@
   font-size: 3em;
 }
 
+.table td {
+  height: 160px;
+}
+
 td {
   width: 14.3%;
   height: 3rem;
