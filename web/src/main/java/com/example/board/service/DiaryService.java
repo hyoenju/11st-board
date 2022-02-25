@@ -38,8 +38,10 @@ public class DiaryService {
     public void putDiary(Long diaryId, Diary newDiary) {
         diaryRepository.findById(diaryId)
             .map(diary -> {
-                diary.setContent(newDiary.getContent());
                 diary.setTitle(newDiary.getTitle());
+                diary.setContent(newDiary.getContent());
+                diary.setHashtag(newDiary.getHashtag());
+                diary.setEmotionScore(newDiary.getEmotionScore());
                 return diaryRepository.save(diary);
             }).orElseGet(() -> {
                 return diaryRepository.save(newDiary);

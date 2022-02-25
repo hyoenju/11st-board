@@ -68,16 +68,15 @@
       <div class="row g-5">
         <div class="col-md-12 col-lg-12">
           <h4 class="mb-3">Edit a Diary</h4>
-          <form method="post" th:href="@{'/diaries/'+${diary.id}?_method=PUT}"
+          <form method="post" th:action="@{'/diaries/'+${diary.id}}"
                 class="needs-validation" novalidate>
             <input type="hidden" name="_method" value="put"/>
             <div class="row g-3">
               <div class="col-sm-12">
                 <p class="mb-1"><i class="bi bi-book-half"></i> Title</p>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="title" placeholder="title"
-                         th:value="${diary.title}"
-                         disabled>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="title"
+                         th:value="${diary.title}" th:text="${diary.title}">
                   <label for="title"> title </label>
                 </div>
               </div>
@@ -85,7 +84,7 @@
               <div class="col-sm-12">
                 <p class="mb-1"><i class="bi bi-chat-square-dots-fill"></i> Content</p>
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" id="content" placeholder="content"
+                    <textarea class="form-control" id="content" name="content" placeholder="content"
                               style="height: 100px"
                               th:text="${diary.content}" required></textarea>
                   <label for="content">content</label>
@@ -95,7 +94,7 @@
               <div class="col-sm-7 col-md-7">
                 <p class="mb-1"># Hashtag</p>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="hashtag" placeholder="hashtag"
+                  <input type="text" class="form-control" id="hashtag" name="hashtag" placeholder="hashtag"
                          th:value="${diary.hashtag}">
                   <label for="hashtag">#hashtag</label>
                 </div>
@@ -105,7 +104,7 @@
                 <p class="mb-1"><i class="bi bi-calendar-check"></i> Created At</p>
                 <div class="form-floating mb-3">
                   <input type="date" class="form-control" id="createdAt" name="createdAt" placeholder="createdAt"
-                         th:value="${#temporals.format(diary.createdAt, 'yyyy-MM-dd')}"
+                         th:value="${#temporals.format(diary.createdAt, 'yyyy-MM-dd')}">
                   <label for="createdAt"> created at </label>
                 </div>
               </div>
@@ -160,7 +159,8 @@
                   정말 삭제하시겠습니까?
                 </div>
                 <div class="modal-footer">
-                  <form method="post" th:action="@{'/diaries/'+${diary.id}+?_method=DELETE}">
+                  <form method="post" th:action="@{'/diaries/'+${diary.id}}">
+                    <input type="hidden" name="_method" value="delete"/>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
                     </button>
                     <button type="submit" class="btn btn-danger">Delete</button>

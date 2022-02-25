@@ -83,24 +83,22 @@ public class DiaryController {
         return new ModelAndView("diaries/board_edit", map);
     }
     
-    @PutMapping("/edit/{diaryId}")
-    public String putDiary(@PathVariable Long diaryId, String content, @ModelAttribute Diary diary) {
-        System.out.println("put method");
-        System.out.println("content: "+content);
-        System.out.println(diary);
+    @PutMapping("/{diaryId}")
+    public String putDiary(@PathVariable Long diaryId, @ModelAttribute Diary diary) {
         String baseUrl = "http://localhost:8000/ml?content=" + diary.getContent();
         ResponseEntity<ScoreResponse> responseEntity = restTemplate.getForEntity(baseUrl,
           ScoreResponse.class);
         double emotionScore = responseEntity.getBody().getScore();
         diary.setEmotionScore(emotionScore);
+        System.out.println(diary);
         diaryService.putDiary(diaryId, diary);
+        Diary diaryAfter = diaryService.getDiary(diaryId);
+        System.out.println(diaryAfter);
         return "redirect:/diaries/" + diaryId;
     }
     
     @DeleteMapping("/{diaryId}")
     public String deleteDiary(@PathVariable Long diaryId) {
-        System.out.println("delete method");
-        System.out.println(diaryId);
         diaryService.deleteDiary(diaryId);
         return "redirect:/diaries";
     }
