@@ -29,22 +29,17 @@ Diary {
     private String hashtag;
     @Setter
     private double emotionScore;
-    
+    @Setter
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     
     
-    public Diary(String title, String content, String hashtag) {
+    public Diary(String title, String content, String hashtag, double emotionScore, LocalDateTime createdAt) {
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
-        this.emotionScore=0;
-    }
-    
-    public static Diary of(String title, String content, String createdBy) {
-        Diary diary = new Diary(title, content, createdBy);
-        diary.createdAt = LocalDateTime.now();
-        diary.modifiedAt = diary.createdAt;
-        return diary;
+        this.emotionScore=emotionScore;
+        this.createdAt = createdAt;
+        this.modifiedAt = createdAt;
     }
 }

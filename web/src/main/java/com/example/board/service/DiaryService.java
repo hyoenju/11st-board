@@ -8,44 +8,44 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class DiaryService {
-
     private final DiaryRepository diaryRepository;
-
+    
     public List<Diary> getDiaries() {
         return diaryRepository.findAll();
     }
-
+    
     public List<Diary> getThisMonthDiary(LocalDateTime currentDateTime) {
         LocalDateTime startDatetime = LocalDateTime.of(
-            LocalDate.from(currentDateTime.withDayOfMonth(1)), LocalTime.of(0, 0, 0)); //이번달 00:00:00
+          LocalDate.from(currentDateTime.withDayOfMonth(1)), LocalTime.of(0, 0, 0)); //이번달 00:00:00
         LocalDateTime endDatetime = LocalDateTime.of(
-            LocalDate.from(currentDateTime.with(TemporalAdjusters.lastDayOfMonth())), LocalTime.of(23, 59, 59)); //다음달 00:00:00
-        System.out.println("start:" + startDatetime);
-        System.out.println("end:" + endDatetime);
+          LocalDate.from(currentDateTime.with(TemporalAdjusters.lastDayOfMonth())),
+          LocalTime.of(23, 59, 59)); //다음달 00:00:00
         List<Diary> diaries = diaryRepository.findByCreatedAtIsBetween(startDatetime, endDatetime);
         return diaries;
     }
-
+    
     public void putDiary(Long diaryId, Diary newDiary) {
         diaryRepository.findById(diaryId)
-            .map(diary -> {
-                diary.setTitle(newDiary.getTitle());
-                diary.setContent(newDiary.getContent());
-                diary.setHashtag(newDiary.getHashtag());
-                diary.setEmotionScore(newDiary.getEmotionScore());
-                return diaryRepository.save(diary);
-            }).orElseGet(() -> {
-                return diaryRepository.save(newDiary);
-            });
+          .map(diary -> {
+              diary.setTitle(newDiary.getTitle());
+              diary.setContent(newDiary.getContent());
+              diary.setHashtag(newDiary.getHashtag());
+              diary.setEmotionScore(newDiary.getEmotionScore());
+              return diaryRepository.save(diary);
+          }).orElseGet(() -> {
+              return diaryRepository.save(newDiary);
+          });
     }
 
     public void deleteDiary(Long diaryId) {
@@ -61,43 +61,43 @@ public class DiaryService {
     }
 
     public List<List<CalenderDay>> getThisMonthCalender(
-        LocalDateTime currentDateTime) {
+      LocalDateTime currentDateTime) {
         List<List<CalenderDay>> calender = new ArrayList<>();
         int dayOfTheWeek = currentDateTime.getDayOfWeek().getValue();
         int dayOfMonth = LocalDate.from(currentDateTime.with(TemporalAdjusters.lastDayOfMonth()))
-            .getDayOfMonth();
+          .getDayOfMonth();
         List<CalenderDay> week = new ArrayList<>();
         System.out.println("dayOfTheWeek:" + dayOfTheWeek);
         for (int i = 0; i < dayOfTheWeek; i++) {
             CalenderDay calenderDay = new CalenderDay(0L, false, false, 0,
-                LocalDateTime.now().toLocalDate());
+              LocalDateTime.now().toLocalDate());
             week.add(calenderDay);
         }
         int day = 1;
         System.out.println("dayOfMonth:" + dayOfMonth);
         while (day <= dayOfMonth) {
             LocalDateTime startDatetime = LocalDateTime.of(
-                LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)),
-                LocalTime.of(0, 0, 0));
+              LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)),
+              LocalTime.of(0, 0, 0));
             LocalDateTime endDatetime = LocalDateTime.of(
-                LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)),
-                LocalTime.of(23, 59, 59));
+              LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)),
+              LocalTime.of(23, 59, 59));
             List<Diary> diaries = diaryRepository.findByCreatedAtIsBetween(startDatetime,
-                endDatetime);
+              endDatetime);
             CalenderDay calenderDay = new CalenderDay(
-                0L, true, false, 0,
-                LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)));
+              0L, true, false, 0,
+              LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)));
             if (diaries.size() != 0) {
                 calenderDay = new CalenderDay(diaries.get(0).getId(), true, true,
-                    diaries.get(0).getEmotionScore(),
-                    LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)));
+                  diaries.get(0).getEmotionScore(),
+                  LocalDate.from(currentDateTime.withDayOfMonth(1).plusDays(day - 1)));
             }
             week.add(calenderDay);
             if (week.size() == 7) {
                 calender.add(new ArrayList<>(week));
                 week = new ArrayList<>();
             }
-
+            
             day++;
         }
         if (week.size() < 7) {
@@ -113,7 +113,7 @@ public class DiaryService {
         Map<String, Object> map = new HashMap<>();
         List<Integer> labels = new ArrayList<>();
         List<Object> data = new ArrayList<>();
-
+        
         for (List<CalenderDay> week : monthDiaries) {
             for (CalenderDay calenderDay : week) {
                 if (calenderDay.isDateExist()) {
@@ -128,7 +128,7 @@ public class DiaryService {
         }
         map.put("labels", labels);
         map.put("data", data);
-
+        
         return map;
     }
 }

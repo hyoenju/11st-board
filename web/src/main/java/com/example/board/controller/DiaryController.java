@@ -2,6 +2,7 @@ package com.example.board.controller;
 
 import com.example.board.domain.Diary;
 import com.example.board.dto.CalenderDay;
+import com.example.board.dto.DiaryRequestDto;
 import com.example.board.dto.ScoreResponse;
 import com.example.board.service.DiaryService;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,29 +32,33 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/diaries")
 @Controller
 public class DiaryController {
-
+    
     private final DiaryService diaryService;
     private final RestTemplate restTemplate;
-
+    
     @GetMapping
     public ModelAndView diaries(@RequestParam Optional<String> date) {
-        String baseMonth = date.orElse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM")));
-        List<Integer> monthList = Arrays.stream(baseMonth.split("-")).mapToInt(Integer::parseInt).boxed().toList();
-        LocalDateTime currentDateTime = LocalDateTime.of(monthList.get(0), monthList.get(1), 1, 0, 0);
-
+        String baseMonth = date.orElse(
+          LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM")));
+        List<Integer> monthList = Arrays.stream(baseMonth.split("-")).mapToInt(Integer::parseInt)
+          .boxed().toList();
+        LocalDateTime currentDateTime = LocalDateTime.of(monthList.get(0), monthList.get(1), 1, 0,
+          0);
+        
         Map<String, Object> map = new HashMap<>();
         List<Diary> thisMonthDiaries = diaryService.getThisMonthDiary(currentDateTime);
-        List<List<CalenderDay>> calenderDiaries = diaryService.getThisMonthCalender(currentDateTime);
+        List<List<CalenderDay>> calenderDiaries = diaryService.getThisMonthCalender(
+          currentDateTime);
         Map<String, Object> emotionScores = diaryService.getMonthEmotionScores(calenderDiaries);
-
+        
         map.put("calendar", calenderDiaries);
         map.put("date", currentDateTime);
         map.put("scoreData", emotionScores.get("data"));
         map.put("scoreLabels", emotionScores.get("labels"));
-
+        
         return new ModelAndView("diaries/index", map);
     }
-
+    
     @GetMapping("/{diaryId}")
     public ModelAndView getDiary(@PathVariable Long diaryId) {
         Map<String, Object> map = new HashMap<>();
@@ -61,21 +67,31 @@ public class DiaryController {
     }
     
     @PostMapping
-    public String postDiary(Diary diary) {
-        String baseUrl = "http://localhost:8000/ml?content=" + diary.getContent();
+    public String postDiary(DiaryRequestDto diaryRequestDto) {
+        String baseUrl = "http://localhost:8000/ml?content=" + diaryRequestDto.getContent();
         ResponseEntity<ScoreResponse> responseEntity = restTemplate.getForEntity(baseUrl,
           ScoreResponse.class);
         double emotionScore = responseEntity.getBody().getScore();
-        diary.setEmotionScore(emotionScore);
+        String createdAt = diaryRequestDto.getCreatedAt();
+        final List<Integer> splited = Arrays.stream(createdAt.split("-")).map(it -> Integer.parseInt(it))
+          .collect(Collectors.toList());
+        final int year = splited.get(0);
+        final int month = splited.get(1);
+        final int day = splited.get(2);
+        final LocalDateTime toBe = LocalDateTime.of(year, month, day, 0, 0);
+        Diary diary = new Diary(diaryRequestDto.getTitle(), diaryRequestDto.getContent(),
+          diaryRequestDto.getHashtag(), emotionScore,
+          toBe);
+        System.out.println("createdAt:"+createdAt+" toBe:"+toBe);
         Long diaryId = diaryService.postDiary(diary).getId();
-        return "redirect:/diaries/"+diaryId;
+        return "redirect:/diaries/" + diaryId;
     }
     
     @GetMapping("/write")
     public String writeDiary() {
         return "diaries/board_write";
     }
-
+    
     @GetMapping("/edit/{diaryId}")
     public ModelAndView editDiary(@PathVariable Long diaryId) {
         Map<String, Object> map = new HashMap<>();
@@ -102,5 +118,5 @@ public class DiaryController {
         diaryService.deleteDiary(diaryId);
         return "redirect:/diaries";
     }
-
+    
 }
